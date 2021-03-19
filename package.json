@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "yakusoku",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "zWolfy",
+  "license": "GLP-3.0",
+  "description": ""
+}
