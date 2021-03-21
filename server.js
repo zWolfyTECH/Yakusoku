@@ -1,6 +1,7 @@
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
+const isImage = require('is-image');
 
 const [,, ...args] = process.argv;
 
@@ -50,8 +51,13 @@ http.createServer(function (req, res) {
             if(el) console.log(`[LOG] > ${time} > ${req.connection.remoteAddress} -> Requested "${req.url.replace('/', '')}" -> Returned Error`);
         }
     } else if(fs.existsSync(`web/${req.url.replace('/', '')}`)) {
-        res.end(fs.readFileSync(`web/${req.url.replace('/', '')}`));
-
+        if(!isImage(`${req.url.replace('/', '')}`)) {
+            res.end(fs.readFileSync(`web/${req.url.replace('/', '')}`));
+        } else {
+            res.writeHead(200, {'Content-Type': 'image/jpeg'});
+            res.end(fs.readFileSync(`web/${req.url.replace('/', '')}`));
+        }
+        
         if(el) console.log(`[LOG] > ${time} > ${req.connection.remoteAddress} -> Requested "${req.url.replace('/', '')}"`);
     } else if(req.url == '/favicon.ico') {
         res.end(fs.readFileSync('favicon.ico'))
