@@ -64,6 +64,7 @@ http.createServer(function (req, res) {
 
         if(el) console.log(`[LOG] > ${time} > ${req.connection.remoteAddress} -> Requested favicon`);
     } else if(!fs.existsSync(`web/${req.url.replace('/', '')}`)) {
+        res.writeHead(404, {'Content-Type': 'text/html'});
         res.end(fs.readFileSync(config.errorpage));
 
         if(el) console.log(`[LOG] > ${time} > ${req.connection.remoteAddress} -> Requested "${req.url.replace('/', '')}" -> Returned Error`);
